@@ -11,6 +11,7 @@
         public $model;
         public $jsonField = 'ContentJSON';
         public $uploadUrl = '';
+        public $sizes = ['original', 'preview'];
 
         public function init()
         {
@@ -23,6 +24,6 @@
         {
             $fName = Html::getInputName($this->model, $this->jsonField);
             $fId = Html::getInputId($this->model, $this->jsonField);
-            return $this->render('steditor', ['fName' => $fName, 'fId' => $fId]);
+            return $this->render('steditor', ['fName' => $fName, 'fId' => $fId, 'sizes' => $this->sizes]);
         }
     }

@@ -48,6 +48,7 @@
     required: [],
     uploadUrl: '/attachments',
     baseImageUrl: '/sir-trevor-uploads/',
+    imageSizes : {},
     errorsContainer: undefined
   };
 
@@ -2757,7 +2758,8 @@
   
   SirTrevor.Editor = (function(){
   
-    var SirTrevorEditor = function(options) {
+    var SirTrevorEditor = function(options)
+    {
       this.initialize(options);
     };
   
@@ -2801,7 +2803,6 @@
         SirTrevor.instances.push(this);
         
         this.build();
-        
         SirTrevor.bindFormSubmit(this.$form);
       },
   
@@ -2943,7 +2944,7 @@
   
         // additionally pass master editor object to block (needed for nested blocks)
         var block = new SirTrevor.Blocks[type](data, this.ID, this);
-  
+
         // optional `$container` argument can define the DOM element to adopt new block
         // this is used for initial blocks structure building to support nested blocks
         this._renderInPosition(block.render().$el, $container);
@@ -3299,7 +3300,17 @@
     return SirTrevorEditor;
   
   })();
-  
+
+  SirTrevor.RenderImageSizesSelect = function(sizes)
+  {
+    var html = '';
+    $.each(sizes, function(idx, item)
+    {
+      html+= '<option value="'+idx+'">'+item.Str+'</option>';
+    });
+
+    return html;
+  };
 
   /* We need a form handler here to handle all the form submits */
   SirTrevor.setDefaults = function(options) {

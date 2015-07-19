@@ -1,12 +1,13 @@
+
 SirTrevor.Blocks.Imagebox = (function() {
 
   var template =  '<div class="row">' +
       '<div class="col-md-6">Name: <input name="Name" class="form-control" /><br/>' +
-      'Description: <input name="Description" class="form-control" />' +
+      'Description: <input name="Description" class="form-control" /> <br/>' +
+      'Visible image size: <select name="ImgSize"></select>' +
       '</div>' +
       '<div class="col-md-6"><img class="imgbox" style="width: 100%; max-height: 150px; max-width: 150px;" /></div>' +
       '</div>';
-
 
     return SirTrevor.Block.extend({
 
@@ -23,9 +24,15 @@ SirTrevor.Blocks.Imagebox = (function() {
 
         loadData: function (data)
         {
+            var html = SirTrevor.RenderImageSizesSelect(SirTrevor.DEFAULTS.imageSizes);
+            var select = this.$('select[name="ImgSize"]');
+            select.html(html);
+            select.val(data.ImgSize).change();
+
             this.$('img.imgbox').attr('src', data.data.Images.o);
             this.$('input[name="Name"]').val(data.Name);
             this.$('input[name="Description"]').val(data.Description);
+
             this.$inputs.show();
         },
 
@@ -35,6 +42,14 @@ SirTrevor.Blocks.Imagebox = (function() {
 
         onBlockRender: function ()
         {
+            var select = this.$('select[name="ImgSize"]');
+            var len = $('option', select).length;
+            if(len == 0)
+            {
+                var html = SirTrevor.RenderImageSizesSelect(SirTrevor.DEFAULTS.imageSizes);
+                select.html(html);
+            }
+
             /* Setup the upload button */
             this.$inputs.find('button').bind('click', function (ev)
             {
